@@ -14,16 +14,32 @@ class ExtensionChanger:
         self.folders_path = None
         self.files_path = []
         self.list_file_with_extension = []
+        self.option = ""
 
     def folder_analysis(self):
         self.working_directory = pathlib.Path(os.getcwd())
+
+    def select_option(self):
+        self.option = input("""
+        1. Les fichiers a convertir sont à la racine du dossier mqxliff
+        2. Les fichiers à convertir sont répartis dans plusieurs sous dossiers dans le dossier mqxliff
+
+        Fait ton choix :)
+        """)
+
+        if self.option not in ["1", "2"]:
+            print("Tu ne peux qu'indiquer 1 ou 2\n\n")
+            self.select_option
 
     def check_files_extensions(self):
         # For the test
         folder_to_ignore = ["\\env\\", "\\__pycache__\\"]
         ###############
 
-        self.folders_path = glob(f"{self.working_directory}/*/")
+        if self.option == "1":
+            self.folders_path = glob(f"{self.working_directory}/*/*/")
+        elif self.option == "2":
+            self.folders_path = glob(f"{self.working_directory}/*/*/*")
 
         for folder in self.folders_path:
             for forbidden_name in folder_to_ignore:
@@ -46,7 +62,7 @@ class ExtensionChanger:
             string_path = str(file_path)
             extensions.append(string_path.split(".")[-1])
         self.delete_duplicate(extensions)
-        print(f"Extensions present in folder(s):\n {self.extension_list}")
+        print(f"Extension présent dans les dossier(s):\n {self.extension_list}")
 
     def move_files(self, file, filename, path):
         folder_where_to_move = f"{path}\\{self.new_extension}\\{filename}"
@@ -65,13 +81,13 @@ class ExtensionChanger:
         return new_file, filename, path_to_use
 
     def choose_extension_to_change(self):
-        self.extension = input("Indicate the extension to modify: ").lower()
+        self.extension = input("L'extension à modifier: ").lower()
 
         if self.extension not in self.extension_list:
-            logging.warning("\nNo file has this extension in the folder!")
+            logging.warning("\nAucun fichier n'a cette extension!")
             self.choose_extension_to_change()
         elif self.extension == "py":
-            logging.warning("This extension is forbidden!")
+            logging.warning("Cette extension est interdite!")
             self.choose_extension_to_change()
 
     def get_all_files_with_extension_to_modify(self):
@@ -80,7 +96,7 @@ class ExtensionChanger:
             self.list_file_with_extension += temp
 
     def rename_move_files(self):
-        self.new_extension = input("Indicate the new extension: ").lower()
+        self.new_extension = input("La nouvelle extension: ").lower()
 
         for file in self.list_file_with_extension:
             file = str(file)
@@ -92,8 +108,10 @@ class ExtensionChanger:
         os.makedirs(f"{folder}\\{self.new_extension}", exist_ok=True)
 
     def execute(self):
+
         # Analyze folders
         self.folder_analysis()
+        self.select_option()
         self.check_files_extensions()
         self.show_extension_list_from_working_directory()
 
