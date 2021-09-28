@@ -119,8 +119,15 @@ class ExtensionChangerV2():
 
         self.folder_to_create = input("Donner la nouvelle extension voulue: ")
 
-        self.source = f"{self.working_folder}\\work\\{self.folder_to_copy}" 
-        self.destination = f"{self.working_folder}\\saving\\{self.folder_to_create}"
+        if self.use_config == "No":
+            self.source = f"{self.working_folder}\\work\\{self.folder_to_copy}" 
+            self.destination = f"{self.saving_folder}\\{self.folder_to_create}"
+        elif self.use_config == "Yes":
+            self.source = f"{self.working_folder}\\{self.folder_to_copy}" 
+            self.destination = f"{self.saving_folder}\\{self.folder_to_create}"
+        else:
+            logging.error(msg="use_config ne peut valoir que Yes ou No! Corrige la valeur dans le fichier config.json")
+            self.exit()
 
         if os.path.exists(self.destination):
             shutil.rmtree(self.destination)
