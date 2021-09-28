@@ -23,7 +23,7 @@ class ExtensionChangerV2():
     ### --> Quit programm
     def exit(self):
         logging.info(msg="Arrêt du script")
-        sleep(5)
+        sleep(10)
         exit()
 
     ### --> Read config.json file
@@ -37,8 +37,18 @@ class ExtensionChangerV2():
         self.use_config = configuration.get("use_config")
 
         if self.use_config == "Yes":
+            logging.info(msg="us_config=Yes --> les chemins indiqués dans config.json vont être utilisés")
+
             self.working_folder = pathlib.Path(configuration.get("working_folder"))
             self.saving_folder = pathlib.Path(configuration.get("saving_folder"))
+
+            if not os.path.exists(self.working_folder):
+                logging.error(msg=f"Le chemin '{self.working_folder}' n'existe pas!")
+                self.exit()
+            elif not os.path.exists(self.saving_folder):
+                logging.error(msg=f"Le chemin '{self.saving_folder}' n'existe pas!")
+                self.exit()
+
         else:
             self.working_folder = os.path.dirname(__file__)
             self.saving_folder = f"{self.working_folder}\\saving"
