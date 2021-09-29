@@ -44,8 +44,6 @@ class ExtensionChangerV2():
             self.working_folder = pathlib.Path(configuration.get("working_folder"))
             self.saving_folder = pathlib.Path(configuration.get("saving_folder"))
 
-            print(self.working_folder)
-
             if not os.path.exists(self.working_folder):
                 logging.error(msg=f"Le chemin '{self.working_folder}' n'existe pas!")
                 self.exit()
