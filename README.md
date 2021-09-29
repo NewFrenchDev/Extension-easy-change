@@ -14,7 +14,7 @@
 
 <br>
 
-<img src="./src/how-to-use-methode-1.gif" alt="example one" width="600" height="350" />
+<img src="./src/how-to-use-methode-1.gif" alt="example one" width="800" height="400" />
 
 <br>
 <br>
