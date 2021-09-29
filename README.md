@@ -27,7 +27,7 @@
 
 This methode allow to use the script wherever you want to.
 
-1. Place the script whereve.
+1. Place the script wherever.
 2. Open the config.json and change the No to Yes if it's not already the case.
 3. Indicate in the config.json, the source folder path where are the files to change and the folder where you will save the new generated files.
 4. Run the main.py and follow the instruction
