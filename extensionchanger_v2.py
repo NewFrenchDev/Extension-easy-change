@@ -3,9 +3,11 @@ from glob import glob
 import json
 from time import sleep
 import pathlib
+import platform
 import shutil
 import logging
 
+OS = platform.system()
 FORMAT = "%(asctime)s -- %(levelname)s: %(message)s"
 logging.basicConfig(format=FORMAT, level="INFO")
 
@@ -41,6 +43,8 @@ class ExtensionChangerV2():
 
             self.working_folder = pathlib.Path(configuration.get("working_folder"))
             self.saving_folder = pathlib.Path(configuration.get("saving_folder"))
+
+            print(self.working_folder)
 
             if not os.path.exists(self.working_folder):
                 logging.error(msg=f"Le chemin '{self.working_folder}' n'existe pas!")
@@ -126,6 +130,7 @@ class ExtensionChangerV2():
         if self.folder_to_copy not in self.directory_list:
             logging.error("Le nom indiqué n'est pas présent dans la liste suggérée...")
             self.copy_folder()
+            return True
 
         self.folder_to_create = input("Donner la nouvelle extension voulue: ")
 
